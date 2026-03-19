@@ -1,0 +1,2 @@
+google-generativeai
+google-adk==1.14.0
