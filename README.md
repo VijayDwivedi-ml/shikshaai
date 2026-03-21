@@ -1,182 +1,162 @@
-# ShikshaAI – Multilingual AI Lesson Assistant for School Teachers
+## 🚀 ShikshaAI – Intent-Driven Educational Agent
 
-## 🚀 Overview
+### 📌 Overview
 
-ShikshaAI is a cloud-deployed AI agent built using **Google ADK** and powered by a **Gemini model**.
+**ShikshaAI** is an AI agent built using the Google Agent Development Kit (ADK) and powered by a Gemini model. The agent is designed to **classify user intent and route requests to predefined response logic**, enabling structured lesson generation and academic question answering through a single unified interface.
 
-It generates structured classroom-ready teaching modules for school teachers (Grades 1–10) in English or Hindi.
-
-The agent performs one clearly defined task:
-
-> Generate a teaching module including explanation, classroom activity, and exactly three homework questions based on subject, grade, and topic.
-
-The system is deployed on **Google Cloud Run** and accessible via a public HTTP endpoint.
+The solution demonstrates how a **routing-based agent architecture** can handle diverse user inputs while maintaining clarity, consistency, and usability.
 
 ---
 
-## 🎯 Problem Statement
+## 🎯 Problem Statement Alignment
 
-School teachers spend significant time preparing structured lesson explanations, activities, and homework aligned to grade levels.
+This project fulfills the Track 1 requirement by:
 
-In multilingual classrooms, the effort increases as teachers often need content in both English and Hindi.
-
-ShikshaAI reduces preparation time by generating classroom-ready teaching modules instantly while maintaining grade-appropriate complexity.
-
----
-
-## 💡 Solution
-
-The AI agent:
-
-* Accepts subject, grade (1–10), topic, and language
-* Validates input
-* Generates:
-
-  * Concept explanation
-  * One classroom activity (discussion-based or hands-on)
-  * Exactly three homework questions
-* Responds entirely in the requested language
+* Building a **single AI agent** using ADK
+* Leveraging a **Gemini model** for inference
+* Implementing a **clearly defined capability: intent classification and request routing**
+* Exposing the agent via an **HTTP endpoint**
+* Accepting input requests and returning **valid structured responses**
 
 ---
 
-## 🏗 Architecture
+## 🧠 Core Idea
 
-```
-Client (HTTP POST)
+The agent’s primary capability is:
+
+> **Intent Classification → Request Routing → Structured Response Generation**
+
+Instead of performing a single static task, the agent intelligently determines user intent and routes the request to the appropriate response logic, such as:
+
+* Greeting interaction
+* Lesson module generation
+* Academic question answering
+
+---
+
+## ✨ Features
+
+* **Intent Classification Engine**
+  Detects user intent (greeting, lesson request, or question)
+
+* **Dynamic Request Routing**
+  Routes input to predefined response logic
+
+* **Structured Lesson Generation**
+  Produces lesson modules with:
+
+  * Explanation
+  * Classroom Activity
+  * Exactly 3 Homework Questions
+
+* **Academic Q&A Support**
+  Provides clear, teacher-style explanations
+
+* **Input Validation**
+  Prompts users for missing details in structured requests
+
+* **Multi-language Output Support**
+  Generates lessons in the requested language
+
+* **Consistent Response Formatting**
+  Ensures readability and structured outputs
+
+* **HTTP Endpoint Access**
+  Enables integration and deployment
+
+---
+
+## 🔄 Process Flow
+
+```text
+User Request (HTTP Input)
         ↓
-Cloud Run (FastAPI)
+API Layer
         ↓
-ADK LlmAgent
+AI Agent (ADK-based)
         ↓
-Gemini Model (gemini-1.5-flash)
+Intent Classification
         ↓
-Generated Lesson Module
+Decision & Routing Layer
+        ↓
+-----------------------------------------
+|                |                      |
+↓                ↓                      ↓
+Greeting Logic   Lesson Generation      Q&A Logic
+                 Logic                  (Answer Generation)
+        ↓
+Structured Response Generation
+        ↓
+HTTP Response Output
 ```
-
-### Tech Stack
-
-* FastAPI (API layer)
-* Google ADK (Agent framework)
-* Gemini 1.5 Flash (LLM backend)
-* Docker (Containerization)
-* Google Cloud Run (Deployment)
 
 ---
 
-## 📡 API Endpoint
+## 💡 Opportunities & Differentiation
 
-### POST /generate-lesson
+Unlike traditional single-purpose agents, ShikshaAI introduces a **routing-based architecture** that dynamically adapts to user intent.
 
-### Request Body
+### Key Advantages:
 
-```json
-{
-  "subject": "Science",
-  "grade": 5,
-  "topic": "Evaporation",
-  "language": "English"
-}
-```
+* Eliminates need for multiple tools or modes
+* Supports natural, flexible user interaction
+* Ensures structured and controlled outputs
 
-### Validation Rules
+### 🌟 USP:
 
-* Grade must be between 1 and 10
-* Subject cannot be empty
-* Topic cannot be empty
-* Language defaults to English if not provided
+> **Intent-driven routing combined with structured response generation**, enabling both flexibility and consistency in educational use cases.
 
 ---
 
-## 📤 Sample Response
+## 🛠️ Technologies Used
 
-```json
-{
-  "status": "success",
-  "lesson": "Explanation: ...\n\nClassroom Activity: ...\n\nHomework:\n1. ...\n2. ...\n3. ..."
-}
-```
-
-The output includes:
-
-1. Grade-appropriate explanation
-2. One classroom activity
-3. Exactly three homework questions
+* **Google ADK (Agent Development Kit)** – Agent design and orchestration
+* **Gemini Model** – Natural language understanding and generation
+* **Python** – Core application logic
+* **HTTP API Layer** – Request/response handling
+* **Docker** – Containerization for deployment
+* **Logging Frameworks** – Monitoring and debugging
 
 ---
 
-## ☁ Deployment
+## 🌐 Deployment
 
-The service is deployed on Google Cloud Run.
+The agent is deployed as a containerized service and exposed via an HTTP endpoint, allowing external systems to interact with it seamlessly.
 
-Public Endpoint:
-
-```
 https://shiksha-ai-196385338585.us-central1.run.app
 
+---
+
+## 📥 Sample Input
+
+```text
+Subject: Science
+Grade: 5
+Topic: Photosynthesis
+Language: English
 ```
 
 ---
 
-## 🔐 Environment Variables
+## 📤 Sample Output
 
-The following environment variable must be set in Cloud Run:
-
-```
-GEMINI_API_KEY=your_api_key_here
-```
-
-The API key is never hardcoded and is securely injected via environment configuration.
+* Explanation of the topic
+* One classroom activity
+* Exactly three homework questions
 
 ---
 
-## 🐳 Local Development
+## 🔮 Future Enhancements
 
-Install dependencies:
-
-```
-pip install -r requirements.txt
-```
-
-Run locally:
-
-```
-uvicorn app.main:app --reload
-```
-
-Test endpoint:
-
-```
-POST http://127.0.0.1:8000/generate-lesson
-```
+* Integration with learning platforms
+* Personalized lesson adaptation
+* Expanded multilingual capabilities
+* Enhanced evaluation and feedback mechanisms
 
 ---
 
-## 📈 Business Impact
+## 🤝 Conclusion
 
-ShikshaAI:
-
-* Reduces lesson preparation time
-* Standardizes instructional quality
-* Supports multilingual classrooms
-* Scales to public and private schools
-* Can integrate with EdTech platforms
-
----
-
-## 🔮 Future Roadmap
-
-* Additional regional language support
-* Curriculum alignment per national standards
-* Integration with Learning Management Systems
-* SaaS subscription model for schools
-
----
-
-## 🧠 Built With
-
-* Google ADK
-* Gemini Model
-* FastAPI
-* Google Cloud Platform
+ShikshaAI demonstrates how a **single AI agent** can be designed using ADK and Gemini to deliver meaningful functionality through **intent classification and intelligent routing**, while maintaining simplicity, usability, and deployment readiness.
 
 ---
